@@ -1,0 +1,102 @@
+# Logs
+client/logs
+client/*.log
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+client/pnpm-debug.log*
+client/lerna-debug.log*
+
+client/node_modules
+client/.DS_Store
+client/dist
+client/dist-ssr
+client/coverage
+client/*.local
+
+client//cypress/videos/
+client//cypress/screenshots/
+
+# Editor directories and files
+client/.vscode/*
+client/!.vscode/extensions.json
+client/.idea
+client/*.suo
+client/*.ntvs*
+client/*.njsproj
+client/*.sln
+client/*.sw?
+
+client/*.tsbuildinfo
+
+## Build results
+bin/
+obj/
+out/
+
+## User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## Mono Auto Generated Files
+mono_crash.*
+
+## VS Code
+.vscode/
+
+## Visual Studio
+.vs/
+*.dbmdl
+*.bak
+*.log
+*.sql
+*.pdb
+
+## IIS Express
+.vs/
+**/.vs/config/
+*.iisexpress
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## npm packages
+node_modules/
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Environment files
+.env
+.env.*
+
+## Logs
+*.log
+
+## Others
+*.tmp
+*.temp
+
+## JetBrains Rider
+.idea/
+
+# Backup & temp
+*~ 
+*.tmp 
+*.bak 
+*.old 
+*.orig 
+
+# OS generated
+.DS_Store
+Thumbs.db
