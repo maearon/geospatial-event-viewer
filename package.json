@@ -1,0 +1,7 @@
+{
+  "name": "geospatial-event-viewer",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "docker compose up --build"
+  }
+}
