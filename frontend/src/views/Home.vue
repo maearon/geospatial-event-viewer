@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import mapboxgl from 'mapbox-gl'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -35,25 +35,42 @@ onMounted(async () => {
   const { data } = await axios.get('http://localhost:8000/api/events/')
   events.value = data.results
 
+  // Set token
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
+  console.log('Mapbox token:', mapboxgl.accessToken)
+
   const map = new mapboxgl.Map({
     container: mapContainer.value!,
     style: 'mapbox://styles/mapbox/streets-v12',
-    center: [0, 20], // Default world center
+    center: [0, 20],
     zoom: 1.5,
   })
 
-  events.value.forEach((event) => {
-    const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-      <h3>${event.title}</h3>
-      <p>${event.description}</p>
-      <p><strong>${formatDate(event.timestamp)}</strong></p>
-    `)
+  map.on('load', () => {
+    map.resize()
 
-    new mapboxgl.Marker()
-      .setLngLat([event.longitude, event.latitude])
-      .setPopup(popup)
-      .addTo(map)
+    events.value.forEach((event) => {
+      const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
+        <h3>${event.title}</h3>
+        <p>${event.description}</p>
+        <p><strong>${formatDate(event.timestamp)}</strong></p>
+      `)
+
+      new mapboxgl.Marker()
+        .setLngLat([event.longitude, event.latitude])
+        .setPopup(popup)
+        .addTo(map)
+    })
+
+    // Optional: Zoom to first event
+    if (events.value.length > 0) {
+      const first = events.value[0]
+      map.flyTo({
+        center: [first.longitude, first.latitude],
+        zoom: 5,
+        speed: 1.2,
+      })
+    }
   })
 })
 </script>
