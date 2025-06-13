@@ -1,100 +1,53 @@
 <template>
-  <div>
-    <v-container>
-      <h1 class="text-h4 mb-6">Geospatial Events</h1>
+  <v-container>
+    <h1 class="text-h4 font-weight-bold mb-4">Geospatial Events</h1>
 
-      <v-alert v-if="error" type="error" class="mb-4">
-        {{ error }}
-      </v-alert>
+    <div ref="mapContainer" class="map-container" />
 
-      <v-skeleton-loader v-if="loading" type="card" class="mb-4" />
+    <v-divider class="my-6"></v-divider>
 
-      <div v-else>
-        <div id="map" class="mb-6" style="height: 500px; border-radius: 8px; overflow: hidden"></div>
-
-        <v-row>
-          <v-col
-            v-for="event in events"
-            :key="event.id"
-            cols="12"
-            md="6"
-          >
-            <v-card>
-              <v-card-title>{{ event.title }}</v-card-title>
-              <v-card-subtitle>
-                {{ formatDate(event.timestamp) }}
-              </v-card-subtitle>
-              <v-card-text>
-                <p>{{ event.description }}</p>
-                <p><strong>Location:</strong> {{ event.location }}</p>
-                <p><strong>Coordinates:</strong> {{ event.latitude }}, {{ event.longitude }}</p>
-                <v-img
-                  v-if="event.image"
-                  :src="event.image"
-                  max-height="200"
-                  contain
-                  class="mt-3"
-                />
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
-      </div>
-    </v-container>
-  </div>
+    <div v-for="event in events" :key="event.id" class="mb-6">
+      <v-card elevation="2" class="pa-4">
+        <v-card-title>{{ event.title }}</v-card-title>
+        <v-card-text>
+          <p><strong>{{ formatDate(event.timestamp) }}</strong></p>
+          <p>{{ event.description }}</p>
+          <p>Location: {{ event.location }}</p>
+          <p>Coordinates: {{ event.latitude }}, {{ event.longitude }}</p>
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { onMounted, ref } from 'vue'
 import mapboxgl from 'mapbox-gl'
+import axios from 'axios'
+import dayjs from 'dayjs'
 
-interface Event {
-  id: number
-  title: string
-  description: string
-  location: string
-  latitude: number
-  longitude: number
-  timestamp: string
-  image?: string
-}
+const events = ref<any[]>([])
+const mapContainer = ref<HTMLElement | null>(null)
 
-const events = ref<Event[]>([])
-const loading = ref(true)
-const error = ref<string | null>(null)
+const formatDate = (ts: string) => dayjs(ts).format('DD/MM/YYYY, h:mm:ss A')
 
-const fetchEvents = async () => {
-  try {
-    const res = await axios.get('http://127.0.0.1:8000/api/events/')
-    events.value = res.data.results || res.data
-  } catch (err: any) {
-    error.value = err?.response?.data?.detail || 'Failed to load events'
-  } finally {
-    loading.value = false
-  }
-}
+onMounted(async () => {
+  const { data } = await axios.get('http://localhost:8000/api/events/')
+  events.value = data.results
 
-const formatDate = (timestamp: string) => {
-  const date = new Date(timestamp)
-  return date.toLocaleString()
-}
-
-const initMap = () => {
-  mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN'
-
+  mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
   const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: [0, 0],
-    zoom: 2
+    container: mapContainer.value!,
+    style: 'mapbox://styles/mapbox/streets-v12',
+    center: [0, 20], // Default world center
+    zoom: 1.5,
   })
 
   events.value.forEach((event) => {
     const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
       <h3>${event.title}</h3>
       <p>${event.description}</p>
-      <small>${formatDate(event.timestamp)}</small>
+      <p><strong>${formatDate(event.timestamp)}</strong></p>
     `)
 
     new mapboxgl.Marker()
@@ -102,16 +55,15 @@ const initMap = () => {
       .setPopup(popup)
       .addTo(map)
   })
-}
-
-onMounted(async () => {
-  await fetchEvents()
-  initMap()
 })
 </script>
 
 <style scoped>
-#map {
+.map-container {
+  height: 500px;
   width: 100%;
+  margin-bottom: 30px;
+  border-radius: 8px;
+  overflow: hidden;
 }
 </style>
