@@ -5,8 +5,10 @@ from rest_framework.permissions import IsAuthenticated
 from django.core.paginator import Paginator
 from .models import User
 from .serializers import UserSerializer, UserDetailSerializer
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.filter(activated=True)
     serializer_class = UserSerializer
