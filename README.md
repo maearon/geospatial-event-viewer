@@ -20,7 +20,7 @@ Built as a take-home assignment for the Fullstack Developer role at Aetosky.
 
 ## 📸 Screenshots
 
-> *(Add screenshots here)*
+![thumbnail 7](https://github.com/maearon/geospatial-event-viewer/blob/main/backend/Screenshot%20From%202025-06-13%2020-20-02.png)
 
 ---
 
