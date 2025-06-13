@@ -1,49 +1,58 @@
 # Geospatial Event Viewer
 
-A fullstack web application to visualize geospatial intelligence events on an interactive map. Built as a take-home assignment for the Fullstack Developer role at Aetosky.
+A fullstack web application to visualize geospatial intelligence events on an interactive map.  
+Built as a take-home assignment for the Fullstack Developer role at Aetosky.
+
+---
 
 ## 🗺️ Features
 
 - Interactive world map using **MapboxGL**
 - Backend API built with **Django** and SQLite
-- Frontend app built with **Vue.js**
-- Fetches and displays mock event data from a JSON file
-- Clickable markers showing event details
-- [Bonus] Filter events by severity
-- [Bonus] Severity-based marker styling
-- [Bonus] Dockerized backend and frontend
+- Frontend app built with **Vue 3** + **Vuetify**
+- Mock event data imported from `events.json`
+- Clickable markers with popups
+- Event list syncs with map and vice versa
+- [Bonus] Severity filtering and marker styling
+- Dockerized backend & frontend
 
 ---
 
 ## 📸 Screenshots
 
-> *(Add screenshots here if available, such as full map UI and popup details)*
+> *(Add screenshots here)*
 
 ---
 
 ## 🏗️ Tech Stack
 
-- **Frontend**: Vue.js, MapboxGL
-- **Backend**: Django (Python), SQLite
-- **Containerization**: Docker, Docker Compose
+- **Frontend**: Vue 3, Vuetify, Pinia, MapboxGL
+- **Backend**: Django, Django REST Framework
+- **Database**: SQLite (default), can be swapped for PostgreSQL
+- **Dev Tools**: Docker, Axios, Toastification
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
+```bash
 geospatial-event-viewer/
 ├── backend/
-│ ├── manage.py
-│ ├── events/
-│ ├── events.json
-│ └── Dockerfile
+│   ├── events/
+│   ├── scripts/
+│   │   ├── events.json
+│   │   └── load_events.py
+│   ├── manage.py
+│   └── requirements.txt
 ├── frontend/
-│ ├── src/
-│ ├── public/
-│ └── Dockerfile
+│   ├── src/
+│   │   ├── App.vue
+│   │   ├── main.ts
+│   │   └── views/
+│   │       └── Home.vue
+│   └── package.json
 ├── docker-compose.yml
 └── README.md
-
 ```
 
 ---
@@ -54,51 +63,70 @@ geospatial-event-viewer/
 
 - Python 3.10+
 - Node.js 18+
+- Mapbox token in `.env` or `import.meta.env.VITE_MAPBOX_TOKEN`
 - (Optional) Docker & Docker Compose
 
 ---
 
-### 🐍 Backend (Django)
+## 🐍 Backend Setup (Django)
 
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 
-# Load mock data into DB (optional if using fixtures)
+# Run migrations
 python manage.py migrate
-python manage.py loaddata events.json
 
-# Run server
+# Load mock data (2 options below):
+# Option 1: Using Django fixture
+python manage.py loaddata scripts/events.json
+
+# Option 2: Using custom script
+python scripts/load_events.py
+
+# Run dev server
 python manage.py runserver
 ```
-API available at: http://localhost:8000/api/events
 
-🌐 Frontend (Vue.js)
-```
+> API available at: http://localhost:8000/api/events/
+
+---
+
+## 🌐 Frontend Setup (Vue 3)
+
+```bash
 cd frontend
 npm install
 npm run dev
 ```
-Frontend available at: http://localhost:5173
 
-🐳 Docker Setup (Optional)
-```
+> Frontend available at: http://localhost:5173/
+
+---
+
+## 🐳 Dockerized Setup (Optional)
+
+```bash
 docker-compose up --build
 ```
-Frontend: http://localhost:5173
 
-Backend API: http://localhost:8000/api/events
+- Frontend: http://localhost:5173  
+- Backend API: http://localhost:8000/api/events/
 
-✅ API Endpoints
-GET /api/events: Returns list of all events
+---
 
-GET /api/events?severity=high: [Bonus] Filter by severity (high, medium, low)
+## ✅ API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/events/` | Get all events |
+| GET | `/api/events?severity=high` | Filter by severity |
 
 Example Response:
 
-```
+```json
 [
   {
     "id": 1,
@@ -107,28 +135,58 @@ Example Response:
     "longitude": 105.8342,
     "severity": "high",
     "description": "Unauthorized drone activity detected."
-  },
-  ...
+  }
 ]
 ```
-⚙️ Design Decisions
-Chose MapboxGL for smooth, responsive map rendering.
 
-Used Vue 3 Composition API for cleaner logic separation.
+---
 
-Event filtering done both client-side and server-side for flexibility.
+## 🧪 Development Tips
 
-Dockerized setup to simplify cross-environment development.
+### 🔍 Useful Shell Commands
 
-🧠 Challenges Faced
-Aligning map rendering with real-time API data.
+```bash
+# List project structure
+tree . -I "node_modules|__pycache__|.git|venv"
 
-Managing reactive state between filters and markers.
+# Check environment variables
+printenv | grep MAPBOX
 
-Ensuring cross-origin API calls worked correctly in local dev.
+# Run custom data script
+python scripts/load_events.py
+```
 
-📬 Submission
-This project is submitted as part of the Fullstack Developer Take-Home Assessment for Aetosky.
+> Nếu `tree` chưa được cài:
+```bash
+sudo apt update && sudo apt install tree
+```
 
-📄 License
-This project is for evaluation purposes only and is not intended for commercial use.
+---
+
+## ⚙️ Design Decisions
+
+- 🗺️ Chose MapboxGL for dynamic map and marker performance
+- 🧠 Used Vue 3 + Composition API + Pinia for state logic
+- 🔄 Marker popups sync with event list
+- 📦 Docker ensures consistent setup across machines
+
+---
+
+## 🧠 Challenges Faced
+
+- Syncing card clicks with marker fly-to
+- Dynamically resizing map after load
+- Styling markers and popups to match severity
+- CORS and HTTP configs for frontend/backend integration
+
+---
+
+## 📬 Submission
+
+This project is submitted as part of the Fullstack Developer Take-Home Assessment for **Aetosky**.
+
+---
+
+## 📄 License
+
+This project is for **evaluation/demo purposes only**. Not intended for production or commercial use.

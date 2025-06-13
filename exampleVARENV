@@ -1,0 +1,7 @@
+# Django
+DJANGO_SECRET_KEY=your-secret-key
+DEBUG=True
+ALLOWED_HOSTS=*
+
+# Optional (nếu dùng SQLite, không cần DB_URL)
+# DATABASE_URL=sqlite:///db.sqlite3
