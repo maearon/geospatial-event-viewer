@@ -1,102 +1,40 @@
-# Logs
-client/logs
-client/*.log
-client/npm-debug.log*
-client/yarn-debug.log*
-client/yarn-error.log*
-client/pnpm-debug.log*
-client/lerna-debug.log*
-
-client/node_modules
-client/.DS_Store
-client/dist
-client/dist-ssr
-client/coverage
-client/*.local
-
-client//cypress/videos/
-client//cypress/screenshots/
-
-# Editor directories and files
-client/.vscode/*
-client/!.vscode/extensions.json
-client/.idea
-client/*.suo
-client/*.ntvs*
-client/*.njsproj
-client/*.sln
-client/*.sw?
-
-client/*.tsbuildinfo
-
-## Build results
-bin/
-obj/
-out/
-
-## User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-## Rider
-.idea/
-
-## Mono Auto Generated Files
-mono_crash.*
-
-## VS Code
-.vscode/
-
-## Visual Studio
-.vs/
-*.dbmdl
-*.bak
+# === General ===
 *.log
-*.sql
-*.pdb
-
-## IIS Express
-.vs/
-**/.vs/config/
-*.iisexpress
-
-## ASP.NET Scaffolding
-ScaffoldingReadMe.txt
-
-## npm packages
-node_modules/
-
-## NuGet
-*.nupkg
-packages/
-project.lock.json
-project.fragment.lock.json
-artifacts/
-
-## Environment files
+*.pyc
+*.pyo
+*.db
+.DS_Store
 .env
 .env.*
 
-## Logs
-*.log
+# === Python / Django ===
+__pycache__/
+*.sqlite3
+*.py[cod]
+*.egg-info/
+*.migrations/
+venv/
+backend/db.sqlite3
+backend/staticfiles/
+backend/media/
 
-## Others
-*.tmp
-*.temp
+# === Node / Vue.js ===
+node_modules/
+dist/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
 
-## JetBrains Rider
+# === Docker ===
+*.pid
+docker-compose.override.yml
+
+# === VSCode / IDEs ===
+.vscode/
 .idea/
+*.swp
+*.swo
 
-# Backup & temp
-*~ 
-*.tmp 
-*.bak 
-*.old 
-*.orig 
-
-# OS generated
-.DS_Store
+# === Optional OS files ===
 Thumbs.db
+ehthumbs.db
