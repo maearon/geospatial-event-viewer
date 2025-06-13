@@ -6,8 +6,8 @@ from apps.relationships.api_views import RelationshipViewSet
 
 router = DefaultRouter()
 router.register(r'users', UserViewSet)
-router.register(r'microposts', MicropostViewSet)
-router.register(r'relationships', RelationshipViewSet)
+router.register(r'microposts', MicropostViewSet, basename='micropost')
+router.register(r'relationships', RelationshipViewSet, basename='relationship')
 
 urlpatterns = [
     path('', include(router.urls)),
