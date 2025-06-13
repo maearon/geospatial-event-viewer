@@ -35,9 +35,7 @@ onMounted(async () => {
   const { data } = await axios.get('http://localhost:8000/api/events/')
   events.value = data.results
 
-  // Set token
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
-  console.log('Mapbox token:', mapboxgl.accessToken)
 
   const map = new mapboxgl.Map({
     container: mapContainer.value!,
@@ -51,9 +49,11 @@ onMounted(async () => {
 
     events.value.forEach((event) => {
       const popup = new mapboxgl.Popup({ offset: 25 }).setHTML(`
-        <h3>${event.title}</h3>
-        <p>${event.description}</p>
-        <p><strong>${formatDate(event.timestamp)}</strong></p>
+        <div class="custom-popup">
+          <h3>${event.title}</h3>
+          <p>${event.description}</p>
+          <p><strong>${formatDate(event.timestamp)}</strong></p>
+        </div>
       `)
 
       new mapboxgl.Marker()
@@ -62,7 +62,6 @@ onMounted(async () => {
         .addTo(map)
     })
 
-    // Optional: Zoom to first event
     if (events.value.length > 0) {
       const first = events.value[0]
       map.flyTo({
@@ -82,5 +81,28 @@ onMounted(async () => {
   margin-bottom: 30px;
   border-radius: 8px;
   overflow: hidden;
+}
+
+/* Tùy chỉnh giao diện popup */
+:deep(.mapboxgl-popup-content) {
+  font-family: 'Roboto', sans-serif;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: white;
+  color: #212121;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-width: 300px;
+  z-index: 9999;
+}
+
+:deep(.mapboxgl-popup-content h3) {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: #1e88e5;
+}
+
+:deep(.mapboxgl-popup-content p) {
+  margin: 4px 0;
+  font-size: 14px;
 }
 </style>
