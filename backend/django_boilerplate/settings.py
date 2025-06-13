@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'apps.accounts',
+    'apps.events',
     'apps.microposts',
     'apps.relationships',
     'apps.static_pages',
