@@ -1,3 +1,4 @@
+// File: src/main.ts
 import { createApp } from "vue"
 import { createPinia } from "pinia"
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate"

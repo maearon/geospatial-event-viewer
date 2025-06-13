@@ -1,22 +1,37 @@
+// File: src/views/Home.vue
 <template>
-  <v-container>
-    <h1 class="text-h4 font-weight-bold mb-4">Geospatial Events</h1>
+  <v-container fluid class="pa-0">
+    <v-row no-gutters>
+      <v-col cols="12">
+        <h1 class="text-h4 font-weight-bold my-6 text-center">Geospatial Events</h1>
+      </v-col>
 
-    <div ref="mapContainer" class="map-container" />
+      <v-col cols="12">
+        <div ref="mapContainer" class="map-container" />
+      </v-col>
 
-    <v-divider class="my-6"></v-divider>
+      <v-col cols="12">
+        <v-divider class="my-6"></v-divider>
+      </v-col>
 
-    <div v-for="event in events" :key="event.id" class="mb-6">
-      <v-card elevation="2" class="pa-4">
-        <v-card-title>{{ event.title }}</v-card-title>
-        <v-card-text>
-          <p><strong>{{ formatDate(event.timestamp) }}</strong></p>
-          <p>{{ event.description }}</p>
-          <p>Location: {{ event.location }}</p>
-          <p>Coordinates: {{ event.latitude }}, {{ event.longitude }}</p>
-        </v-card-text>
-      </v-card>
-    </div>
+      <v-col
+        v-for="event in events"
+        :key="event.id"
+        cols="12"
+        md="6"
+        lg="4"
+      >
+        <v-card elevation="2" class="pa-4" @click="focusOnEvent(event)">
+          <v-card-title>{{ event.title }}</v-card-title>
+          <v-card-text>
+            <p><strong>{{ formatDate(event.timestamp) }}</strong></p>
+            <p>{{ event.description }}</p>
+            <p>Location: {{ event.location }}</p>
+            <p>Coordinates: {{ event.latitude }}, {{ event.longitude }}</p>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -28,8 +43,19 @@ import dayjs from 'dayjs'
 
 const events = ref<any[]>([])
 const mapContainer = ref<HTMLElement | null>(null)
+let map: mapboxgl.Map
 
 const formatDate = (ts: string) => dayjs(ts).format('DD/MM/YYYY, h:mm:ss A')
+
+const focusOnEvent = (event: any) => {
+  if (map) {
+    map.flyTo({
+      center: [event.longitude, event.latitude],
+      zoom: 8,
+      speed: 1.2,
+    })
+  }
+}
 
 onMounted(async () => {
   const { data } = await axios.get('http://localhost:8000/api/events/')
@@ -37,7 +63,7 @@ onMounted(async () => {
 
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN
 
-  const map = new mapboxgl.Map({
+  map = new mapboxgl.Map({
     container: mapContainer.value!,
     style: 'mapbox://styles/mapbox/streets-v12',
     center: [0, 20],
@@ -63,12 +89,7 @@ onMounted(async () => {
     })
 
     if (events.value.length > 0) {
-      const first = events.value[0]
-      map.flyTo({
-        center: [first.longitude, first.latitude],
-        zoom: 5,
-        speed: 1.2,
-      })
+      focusOnEvent(events.value[0])
     }
   })
 })
@@ -76,14 +97,12 @@ onMounted(async () => {
 
 <style scoped>
 .map-container {
-  height: 500px;
+  height: calc(100vh - 240px);
   width: 100%;
-  margin-bottom: 30px;
   border-radius: 8px;
   overflow: hidden;
 }
 
-/* Tùy chỉnh giao diện popup */
 :deep(.mapboxgl-popup-content) {
   font-family: 'Roboto', sans-serif;
   padding: 12px 16px;

@@ -1,12 +1,11 @@
+/ File: src/App.vue
 <template>
-  <v-app>
+  <v-app class="app">
     <Header />
     <v-main>
-      <v-container>
-        <router-view />
-        <Footer />
-      </v-container>
+      <router-view />
     </v-main>
+    <Footer />
   </v-app>
 </template>
 
@@ -24,7 +23,15 @@ onMounted(async () => {
 </script>
 
 <style>
-.App {
+.app {
   font-family: var(--font-geist-sans), sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.v-main {
+  flex-grow: 1;
 }
 </style>
