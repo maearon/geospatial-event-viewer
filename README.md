@@ -73,7 +73,8 @@ geospatial-event-viewer/
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\activate        # Linux: source venv/bin/activate
 pip install -r requirements.txt
 
 # Run migrations
