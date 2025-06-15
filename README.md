@@ -27,9 +27,17 @@ Built as a take-home assignment for the Fullstack Developer role at Aetosky.
 ## 🏗️ Tech Stack
 
 - **Frontend**: Vue 3, Vuetify, Pinia, MapboxGL
-- **Backend**: Django, Django REST Framework
-- **Database**: SQLite (default), can be swapped for PostgreSQL
-- **Dev Tools**: Docker, Axios, Toastification
+- **Backend**: Django, Django REST Framework, Django Admin Site 
+```
+django.contrib.admin          | Laravel Nova                                     | Rails ActiveAdmin, RailsAdmin
+django-allauth                | Laravel	Breeze / Jetstream / Fortify             | Rails Devise
+djangorestframework_simplejwt | Laravel Sanctum / Laravel Passport               | Rails devise-jwt, knock
+```
+👉 http://127.0.0.1:8000/admin/
+- **Database**: PostgreSQL Neon https://console.neon.tech/app/projects/proud-sun-03600537
+- **Dev Tools**: Docker, Axios, Toastification, Swagger
+👉 http://127.0.0.1:8000/swagger/
+👉 http://127.0.0.1:8000/redoc/
 
 ---
 
@@ -38,6 +46,9 @@ Built as a take-home assignment for the Fullstack Developer role at Aetosky.
 ```bash
 geospatial-event-viewer/
 ├── backend/
+│   └── apps/
+│       └── accounts/
+│           ├── models.py        👈 Đây chính là nơi định nghĩa model User
 │   ├── events/
 │   ├── scripts/
 │   │   ├── events.json
@@ -82,6 +93,8 @@ pip install -r requirements.txt
   echo "drf-yasg>=1.21.10" >> requirements.txt
   pip install -r requirements/base.txt, dev.txt, prod.txt
 )
+python manage.py collectstatic
+python manage.py createsuperuser
 
 # Run migrations
 python manage.py migrate

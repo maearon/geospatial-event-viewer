@@ -11,6 +11,11 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
+# ✅ Auth static frontend Imports
+from django.contrib import admin
+
+# ✅ Auth JWT frontend Imports
+
 # ✅ Schema config
 schema_view = get_schema_view(
     openapi.Info(
@@ -23,9 +28,13 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    # ✅ Auth static frontend
     path('admin/', admin.site.urls),
     path('', include('apps.static_pages.urls')),
     path('accounts/', include('apps.accounts.urls')),
+
+    # ✅ Auth JWT frontend
+
     path('microposts/', include('apps.microposts.urls')),
     path('relationships/', include('apps.relationships.urls')),
     path('api/', include('apps.core.api_urls')),
