@@ -9,7 +9,7 @@ def home(request):
     if request.user.is_authenticated:
         # Show user's feed
         microposts = request.user.feed()
-        paginator = Paginator(microposts, 30)
+        paginator = Paginator(microposts, 2)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         

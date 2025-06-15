@@ -28,8 +28,8 @@ def signup(request):
 
 
 def user_list(request):
-    users = User.objects.filter(activated=True).order_by('name')
-    paginator = Paginator(users, 30)
+    users = User.objects.filter(is_active=True).order_by('name')
+    paginator = Paginator(users, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'accounts/user_list.html', {'page_obj': page_obj})
