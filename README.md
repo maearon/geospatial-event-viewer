@@ -76,6 +76,12 @@ python -m venv venv
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\venv\Scripts\activate        # Linux: source venv/bin/activate
 pip install -r requirements.txt
+(
+  pip freeze > requirements.txt
+  pip install drf-yasg
+  echo "drf-yasg>=1.21.10" >> requirements.txt
+  pip install -r requirements/base.txt, dev.txt, prod.txt
+)
 
 # Run migrations
 python manage.py migrate
