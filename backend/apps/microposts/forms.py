@@ -10,7 +10,7 @@ class MicropostForm(forms.ModelForm):
             'content': forms.Textarea(attrs={
                 'class': 'form-control',
                 'rows': 3,
-                'placeholder': "What's happening?",
+                'placeholder': "Compose new micropost...",
                 'maxlength': 140
             }),
             'picture': forms.FileInput(attrs={'class': 'form-control'})
