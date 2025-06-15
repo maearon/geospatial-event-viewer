@@ -6,14 +6,29 @@ import hashlib
 
 class User(AbstractUser): # => default accounts_user accounts app name, _user model name
     email = models.EmailField(unique=True)
-    name = models.CharField(max_length=50, blank=True)
-    admin = models.BooleanField(default=False)
+    name = models.CharField(max_length=255, blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    # Optional fields from your original model
+    # admin = models.BooleanField(default=False)
     activated = models.BooleanField(default=False)
-    activated_at = models.DateTimeField(null=True, blank=True)
-    remember_digest = models.CharField(max_length=255, blank=True)
-    activation_digest = models.CharField(max_length=255, blank=True)
-    reset_digest = models.CharField(max_length=255, blank=True)
-    reset_sent_at = models.DateTimeField(null=True, blank=True)
+    # activated_at = models.DateTimeField(null=True, blank=True)
+    # displayName = models.TextField()
+    # avatarUrl = models.TextField(blank=True, null=True)
+    # bio = models.TextField(blank=True, null=True)
+    # googleId = models.TextField(blank=True, null=True)
+    # refresh_token = models.CharField(max_length=255, blank=True, null=True)
+    # refresh_token_expiration_at = models.DateTimeField(blank=True, null=True)
+    # remember_digest = models.CharField(max_length=255, blank=True, null=True)
+    # activation_digest = models.CharField(max_length=255, blank=True, null=True)
+    # reset_digest = models.CharField(max_length=255, blank=True, null=True)
+    # reset_sent_at = models.DateTimeField(blank=True, null=True)
+    # password_digest = models.CharField(max_length=255, blank=True, null=True)
+    # passwordHash = models.TextField(blank=True, null=True)
+
+    # Time metadata
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -21,7 +36,7 @@ class User(AbstractUser): # => default accounts_user accounts app name, _user mo
     REQUIRED_FIELDS = ['username']
 
     class Meta:
-        db_table = 'users'  # 👈 custom table name
+        # db_table = 'users'  # 👈 custom table name
         ordering = ['-created_at']
 
     def __str__(self):

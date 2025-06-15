@@ -81,6 +81,20 @@ geospatial-event-viewer/
 
 ## 🐍 Backend Setup (Django)
 
+```
+SELECT column_name, data_type, is_nullable, column_default
+FROM information_schema.columns
+WHERE table_name = 'users';
+python manage.py shell
+>>> from django.contrib.auth import get_user_model
+>>> get_user_model()._meta.get_fields()
+UPDATE users
+SET is_staff = TRUE,
+    is_superuser = TRUE,
+    is_active = TRUE
+WHERE email = 'manh11117@outlook.com';
+```
+
 ```bash
 cd backend
 python -m venv venv
@@ -99,6 +113,7 @@ python manage.py createsuperuser
 # Run migrations
 python manage.py makemigrations # Only custom table
 python manage.py migrate # python manage.py migrate accounts --fake
+python manage.py showmigrations accounts
 
 # Load mock data (2 options below):
 # Option 1: Using Django fixture
