@@ -97,7 +97,8 @@ python manage.py collectstatic
 python manage.py createsuperuser
 
 # Run migrations
-python manage.py migrate
+python manage.py makemigrations # Only custom table
+python manage.py migrate # python manage.py migrate accounts --fake
 
 # Load mock data (2 options below):
 # Option 1: Using Django fixture

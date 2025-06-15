@@ -4,7 +4,7 @@ from django.urls import reverse
 import hashlib
 
 
-class User(AbstractUser):
+class User(AbstractUser): # => default accounts_user accounts app name, _user model name
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=50, blank=True)
     admin = models.BooleanField(default=False)
@@ -21,6 +21,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['username']
 
     class Meta:
+        db_table = 'users'  # 👈 custom table name
         ordering = ['-created_at']
 
     def __str__(self):
