@@ -35,22 +35,25 @@ def user_list(request):
     return render(request, 'accounts/user_list.html', {'page_obj': page_obj})
 
 
+@login_required
 def user_detail(request, pk):
     user = get_object_or_404(User, pk=pk)
+    is_following = request.user.following(user)  # ✅ gọi method 
     microposts = user.microposts.all()
-    paginator = Paginator(microposts, 30)
+    paginator = Paginator(microposts, 2)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    
+
     context = {
-        'user': user,
+        'user': request.user,
+        'viewed_user': user,
+        'is_following': is_following,
         'page_obj': page_obj,
         'microposts_count': user.microposts_count(),
         'following_count': user.following_count(),
         'followers_count': user.followers_count(),
     }
     return render(request, 'accounts/user_detail.html', context)
-
 
 @login_required
 def user_edit(request, pk):
