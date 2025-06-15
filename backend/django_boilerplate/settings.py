@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'drf_yasg',
 ]
 
 LOCAL_APPS = [
@@ -118,9 +119,8 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-# python manage.py collectstatic ---> All merge to backend/staticfiles/ by Django 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = '/static/' 
+STATIC_ROOT = BASE_DIR / 'staticfiles' # python manage.py collectstatic ---> All merge to backend/staticfiles/ by Django
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
@@ -188,3 +188,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
+
+# Debug settings
+DEBUG = True
