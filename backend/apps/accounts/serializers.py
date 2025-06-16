@@ -11,11 +11,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = [
-            'id', 'username', 'email', 'name', 'admin', 'activated',
+            'id', 'username', 'email', 'name', 'activated',
             'created_at', 'gravatar_url', 'microposts_count',
             'following_count', 'followers_count'
         ]
-        read_only_fields = ['id', 'created_at', 'admin', 'activated']
+        read_only_fields = ['id', 'created_at', 'activated']
 
     def get_gravatar_url(self, obj):
         return obj.gravatar_url()
