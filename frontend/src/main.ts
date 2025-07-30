@@ -13,6 +13,7 @@ import * as directives from "vuetify/directives"
 import "@mdi/font/css/materialdesignicons.css"
 import "./assets/styles/globals.css"
 import "./assets/styles/custom.css"
+import "mapbox-gl/dist/mapbox-gl.css"
 
 const vuetify = createVuetify({
   components,
